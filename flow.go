@@ -108,7 +108,7 @@ func (f *Flow) Run() error {
 		result error
 		start  = time.Now()
 	)
-	initLogging(f.debug)
+	// initLogging(f.debug)
 	if result = f.manager.Run(); result != nil {
 		analytics.Client.Publish("apply-failure", map[string]interface{}{"flowID": f.manager.Config.Metadata.Name})
 		logrus.Info(phase.Colorize.Red("==> Apply failed").String())
