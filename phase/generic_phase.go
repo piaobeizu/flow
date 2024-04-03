@@ -54,7 +54,7 @@ func (p *GenericPhase) SetManager(m *Manager) {
 	p.manager = m
 }
 
-func (p *GenericPhase) parallelDo(funcs ...func(c *apis.FlowConfig) error) error {
+func (p *GenericPhase) ParallelDo(funcs ...func(c *apis.FlowConfig) error) error {
 	// if p.manager.Concurrency == 0 {
 	// 	return p.ParallelEach(funcs...)
 	// }
@@ -62,7 +62,7 @@ func (p *GenericPhase) parallelDo(funcs ...func(c *apis.FlowConfig) error) error
 	return p.ParallelEach(funcs...)
 }
 
-func (p *GenericPhase) parallelDoUpload(funcs ...func(c *apis.FlowConfig) error) error {
+func (p *GenericPhase) ParallelDoUpload(funcs ...func(c *apis.FlowConfig) error) error {
 	// if p.manager.Concurrency == 0 {
 	// 	return hosts.ParallelEach(funcs...)
 	// }
