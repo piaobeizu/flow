@@ -4,4 +4,4 @@ release: ## Run go vet against code.
 	git pull
 	git push
 	git tag -a $(version) -m "Release version $(version)"
-	git push origin $(version)
+	git push origin --tags
