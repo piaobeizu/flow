@@ -83,7 +83,7 @@ type Flow struct {
 	// Context is a type that is passed through to
 	ctx     *phase.Context
 	manager *phase.Manager
-	debug   bool
+	segment bool
 }
 
 // NewFlow creates a new context. For use in when invoking an App or Command action.
@@ -94,16 +94,17 @@ func NewFlow(ctx *phase.Context, m *phase.Manager) *Flow {
 	if m == nil {
 		m = &phase.Manager{}
 	}
-	return &Flow{ctx: ctx, manager: m, debug: false}
+	return &Flow{ctx: ctx, manager: m, segment: false}
 }
-func (f *Flow) SetDebug(debug bool) *Flow {
-	f.debug = debug
+func (f *Flow) SetSegment(segment bool) *Flow {
+	f.segment = segment
 	return f
 }
 
 // Set sets a context flag to a value.
 func (f *Flow) Run() error {
 	defer handlepanic()
+	analytics.InitAnalytics(f.segment)
 	var (
 		result error
 		start  = time.Now()
