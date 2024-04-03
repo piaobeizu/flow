@@ -9,26 +9,78 @@
 package apis
 
 import (
+	"encoding/json"
+
 	"github.com/jellydator/validation"
 )
 
 // APIVersion is the current api version
 const APIVersion = "flow.github.com/v1beta1"
 
+// Hooks define a list of hooks such as hooks["apply"]["before"] = ["ls -al", "rm foo.txt"]
+type hooks map[string]map[string][]string
+
+// ForActionAndStage return hooks for given action and stage
+
 type Metadata struct {
-	Version string `yaml:"version"`
-	Name    string `yaml:"name"`
+	Name string
 }
 
 type Spec struct {
-	Hooks *Hooks `yaml:"hooks,omitempty"`
+	hooks  hooks
+	config any
 }
 
 type FlowConfig struct {
-	APIVersion string    `yaml:"apiVersion"`
-	Kind       string    `yaml:"kind"`
-	Metadata   *Metadata `yaml:"metadata"`
-	Spec       *Spec     `yaml:"spec"`
+	APIVersion string
+	Kind       string
+	Metadata   *Metadata
+	Spec       *Spec
+}
+
+func NewFlowConfig(name string) *FlowConfig {
+	return &FlowConfig{
+		APIVersion: APIVersion,
+		Kind:       "flow",
+		Metadata: &Metadata{
+			Name: name,
+		},
+		Spec: &Spec{},
+	}
+}
+
+func (c *FlowConfig) SetSpec(config any) *FlowConfig {
+	if c.Spec == nil {
+		c.Spec = &Spec{}
+	}
+	c.Spec.config = config
+	return c
+}
+
+func (c *FlowConfig) SetHooks(hooks map[string]map[string][]string) *FlowConfig {
+	if c.Spec == nil {
+		c.Spec = &Spec{
+			hooks: hooks,
+		}
+	}
+	c.Spec.hooks = hooks
+	return c
+}
+
+func (c *FlowConfig) ForActionAndStage(action, stage string) []string {
+	if len(c.Spec.hooks[action]) > 0 {
+		return c.Spec.hooks[action][stage]
+	}
+	return nil
+}
+
+// UnmarshalYAML sets in some sane defaults when unmarshaling the data from yaml
+func (c *FlowConfig) Unmarshal(config any) error {
+	str, err := json.Marshal(c.Spec.config)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(str, config)
 }
 
 // UnmarshalYAML sets in some sane defaults when unmarshaling the data from yaml
