@@ -23,7 +23,8 @@ type hooks map[string]map[string][]string
 // ForActionAndStage return hooks for given action and stage
 
 type Metadata struct {
-	Name string
+	Name    string
+	Version string
 }
 
 type Spec struct {
@@ -38,12 +39,13 @@ type FlowConfig struct {
 	Spec       *Spec
 }
 
-func NewFlowConfig(name string) *FlowConfig {
+func NewFlowConfig(name, version string) *FlowConfig {
 	return &FlowConfig{
 		APIVersion: APIVersion,
 		Kind:       "flow",
 		Metadata: &Metadata{
-			Name: name,
+			Name:    name,
+			Version: version,
 		},
 		Spec: &Spec{},
 	}
