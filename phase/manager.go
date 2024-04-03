@@ -155,7 +155,7 @@ func (m *Manager) Run() error {
 	for _, p := range m.phases {
 		title := p.Title()
 
-		text := Colorize.Green("Runnning phase: %s").String()
+		text := Colorize.Green("Starting phase: %s").String()
 		log.Infof(text, title)
 		if p, ok := p.(withmanager); ok {
 			p.SetManager(m)
@@ -200,7 +200,8 @@ func (m *Manager) Run() error {
 			}
 			continue
 		}
-
+		text = Colorize.Green("Running phase: %s").String()
+		log.Infof(text, title)
 		result = p.Run()
 		ran = append(ran, p)
 

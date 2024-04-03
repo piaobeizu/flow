@@ -33,7 +33,11 @@ func (c *NullClient) Close() {}
 
 func init() {
 	Client = &NullClient{}
-	client, err := NewClient(segmentWriteKey)
+	mid, err := MachineID()
+	if err != nil {
+		panic(err)
+	}
+	client, err := NewClient(segmentWriteKey, mid)
 	if err != nil {
 		panic(err)
 	}
@@ -53,11 +57,12 @@ var ctx = &segment.Context{
 
 // Client for the Segment.io analytics service
 type SClient struct {
-	client segment.Client
+	client    segment.Client
+	machineID string
 }
 
 // NewClient returns a new segment analytics client
-func NewClient(writeKey string) (*SClient, error) {
+func NewClient(writeKey, machineID string) (*SClient, error) {
 	client, err := segment.NewWithConfig(writeKey, segment.Config{Verbose: true})
 	if err != nil {
 		return nil, err
@@ -71,9 +76,10 @@ func NewClient(writeKey string) (*SClient, error) {
 func (c SClient) Publish(event string, props map[string]interface{}) {
 	logrus.Tracef("segment event %s - properties: %+v", event, props)
 	err := c.client.Enqueue(segment.Track{
-		Context:    ctx,
-		Event:      event,
-		Properties: props,
+		Context:     ctx,
+		AnonymousId: c.machineID,
+		Event:       event,
+		Properties:  props,
 	})
 	if err != nil {
 		logrus.Debugf("failed to submit telemetry: %s", err)
