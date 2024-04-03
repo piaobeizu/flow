@@ -191,7 +191,7 @@ func (m *Manager) Run() error {
 			// if m.Config.Spec.K0s.Metadata.ClusterID != "" {
 			// 	p.SetProp("clusterID", m.Config.Spec.K0s.Metadata.ClusterID)
 			// }
-			p.SetProp("apolloID", m.Config.Metadata.Name)
+			p.SetProp("flowID", m.Config.Metadata.Name)
 		}
 
 		if dp, ok := p.(withDryRun); ok && m.DryRun {
