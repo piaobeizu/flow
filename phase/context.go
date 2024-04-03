@@ -23,8 +23,8 @@ type Context struct {
 }
 
 // NewContext creates a new context. For use in when invoking an App or Command action.
-func NewContext(ctx *context.Context) *Context {
-	return &Context{Context: ctx, Data: map[string]any{}}
+func NewContext(ctx context.Context) *Context {
+	return &Context{Context: &ctx, Data: map[string]any{}}
 }
 
 // Set sets a context flag to a value.

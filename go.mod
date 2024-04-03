@@ -4,7 +4,6 @@ go 1.22.1
 
 require (
 	github.com/adrg/xdg v0.4.0
-	github.com/carlmjohnson/versioninfo v0.22.5
 	github.com/denisbrodbeck/machineid v1.0.1
 	github.com/jellydator/validation v1.1.0
 	github.com/logrusorgru/aurora v2.0.3+incompatible
