@@ -14,7 +14,7 @@ import (
 // GenericPhase is a basic phase which gets a config via prepare, sets it into p.Config
 type GenericPhase struct {
 	analytics.Phase
-	ctx     *Context
+	Ctx     *Context
 	manager *Manager
 }
 
