@@ -68,7 +68,8 @@ func NewClient(writeKey, machineID string) (*SClient, error) {
 		return nil, err
 	}
 	return &SClient{
-		client: client,
+		client:    client,
+		machineID: machineID,
 	}, nil
 }
 

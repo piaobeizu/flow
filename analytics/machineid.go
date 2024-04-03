@@ -11,7 +11,7 @@ import (
 // MachineID returns protected id for the current machine
 func MachineID() (string, error) {
 	id, err := machineid.ProtectedID("flow")
-	if err != nil || id == "" {
+	if err != nil {
 		return MachineIDFromHostname()
 	}
 	return id, err
