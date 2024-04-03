@@ -77,10 +77,10 @@ func NewClient(writeKey, machineID string) (*SClient, error) {
 func (c SClient) Publish(event string, props map[string]interface{}) {
 	logrus.Tracef("segment event %s - properties: %+v", event, props)
 	err := c.client.Enqueue(segment.Track{
-		Context:    ctx,
-		UserId:     c.machineID,
-		Event:      event,
-		Properties: props,
+		Context:     ctx,
+		AnonymousId: c.machineID,
+		Event:       event,
+		Properties:  props,
 	})
 	if err != nil {
 		logrus.Debugf("failed to submit telemetry: %s", err)
