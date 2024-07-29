@@ -60,18 +60,13 @@ func (c *FlowConfig) SetSpec(config any) *FlowConfig {
 }
 
 func (c *FlowConfig) SetHooks(hooks map[string]map[string][]string) *FlowConfig {
-	if c.Spec == nil {
-		c.Spec = &Spec{
-			Hooks: hooks,
-		}
-	}
-	c.Spec.Hooks = hooks
+	c.Hooks = hooks
 	return c
 }
 
 func (c *FlowConfig) ForActionAndStage(action, stage string) []string {
-	if len(c.Spec.Hooks[action]) > 0 {
-		return c.Spec.Hooks[action][stage]
+	if len(c.Hooks[action]) > 0 {
+		return c.Hooks[action][stage]
 	}
 	return nil
 }
