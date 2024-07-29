@@ -31,7 +31,7 @@ type FlowConfig struct {
 	Kind       string
 	Metadata   *Metadata
 	Hooks      Hooks
-	Spec       *Spec
+	Spec       any
 }
 
 func NewFlowConfig(name, version string) *FlowConfig {
@@ -42,15 +42,12 @@ func NewFlowConfig(name, version string) *FlowConfig {
 			Name:    name,
 			Version: version,
 		},
-		Spec: &Spec{},
+		// Spec: &Spec{},
 	}
 }
 
 func (c *FlowConfig) SetSpec(config any) *FlowConfig {
-	if c.Spec == nil {
-		c.Spec = &Spec{}
-	}
-	c.Spec.Config = config
+	c.Spec = config
 	return c
 }
 
@@ -68,7 +65,7 @@ func (c *FlowConfig) ForActionAndStage(action, stage string) []string {
 
 // UnmarshalYAML sets in some sane defaults when unmarshaling the data from yaml
 func (c *FlowConfig) Unmarshal(config any) error {
-	str, err := json.Marshal(c.Spec.Config)
+	str, err := json.Marshal(c.Spec)
 	if err != nil {
 		return err
 	}
@@ -82,8 +79,8 @@ func (c *FlowConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 	c.Spec = &Spec{}
 
-	type apolloConfig FlowConfig
-	yc := (*apolloConfig)(c)
+	type flowConfig FlowConfig
+	yc := (*flowConfig)(c)
 
 	if err := unmarshal(yc); err != nil {
 		return err
