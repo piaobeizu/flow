@@ -17,11 +17,6 @@ import (
 // APIVersion is the current api version
 const APIVersion = "flow.github.com/v1beta1"
 
-// Hooks define a list of hooks such as hooks["apply"]["before"] = ["ls -al", "rm foo.txt"]
-type hooks map[string]map[string][]string
-
-// ForActionAndStage return hooks for given action and stage
-
 type Metadata struct {
 	Name    string
 	Version string
@@ -35,7 +30,7 @@ type FlowConfig struct {
 	APIVersion string
 	Kind       string
 	Metadata   *Metadata
-	Hooks      hooks
+	Hooks      Hooks
 	Spec       *Spec
 }
 
