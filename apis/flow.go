@@ -28,8 +28,8 @@ type Metadata struct {
 }
 
 type Spec struct {
-	hooks  hooks
-	config any
+	Hooks  hooks
+	Config any
 }
 
 type FlowConfig struct {
@@ -55,30 +55,30 @@ func (c *FlowConfig) SetSpec(config any) *FlowConfig {
 	if c.Spec == nil {
 		c.Spec = &Spec{}
 	}
-	c.Spec.config = config
+	c.Spec.Config = config
 	return c
 }
 
 func (c *FlowConfig) SetHooks(hooks map[string]map[string][]string) *FlowConfig {
 	if c.Spec == nil {
 		c.Spec = &Spec{
-			hooks: hooks,
+			Hooks: hooks,
 		}
 	}
-	c.Spec.hooks = hooks
+	c.Spec.Hooks = hooks
 	return c
 }
 
 func (c *FlowConfig) ForActionAndStage(action, stage string) []string {
-	if len(c.Spec.hooks[action]) > 0 {
-		return c.Spec.hooks[action][stage]
+	if len(c.Spec.Hooks[action]) > 0 {
+		return c.Spec.Hooks[action][stage]
 	}
 	return nil
 }
 
 // UnmarshalYAML sets in some sane defaults when unmarshaling the data from yaml
 func (c *FlowConfig) Unmarshal(config any) error {
-	str, err := json.Marshal(c.Spec.config)
+	str, err := json.Marshal(c.Spec.Config)
 	if err != nil {
 		return err
 	}

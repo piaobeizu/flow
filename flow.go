@@ -115,12 +115,6 @@ func (f *Flow) Run() error {
 		logrus.Info(phase.Colorize.Red("==> Apply failed").String())
 		return result
 	}
-	// analytics.Client.Publish("apply-success",
-	// 	map[string]any{
-	// 		"duration": time.Since(start),
-	// 		"flowID":   f.manager.Config.Metadata.Name,
-	// 	},
-	// )
 	duration := time.Since(start).Truncate(time.Second)
 
 	text := fmt.Sprintf("%s:%s is now finished in %ds.", f.manager.Config.Metadata.Name, f.manager.Config.Metadata.Version, duration)
