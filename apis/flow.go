@@ -28,7 +28,6 @@ type Metadata struct {
 }
 
 type Spec struct {
-	Hooks  hooks
 	Config any
 }
 
@@ -36,6 +35,7 @@ type FlowConfig struct {
 	APIVersion string
 	Kind       string
 	Metadata   *Metadata
+	Hooks      hooks
 	Spec       *Spec
 }
 
