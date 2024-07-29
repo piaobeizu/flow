@@ -54,7 +54,7 @@ func (c *FlowConfig) SetSpec(config any) *FlowConfig {
 	return c
 }
 
-func (c *FlowConfig) SetHooks(hooks map[string]map[string][]string) *FlowConfig {
+func (c *FlowConfig) SetHooks(hooks Hooks) *FlowConfig {
 	c.Hooks = hooks
 	return c
 }
